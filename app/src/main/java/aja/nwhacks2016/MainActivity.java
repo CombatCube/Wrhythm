@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileOutputStream;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.util.Random;
 
 public class MainActivity extends ActionBarActivity {
     private Player player = Player.getPlayer();
@@ -109,7 +110,24 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 //System.out.println("Random Clicked");
-                player.random();
+                // GUI level randomization
+                for (int i = 0; i < 4; i++) {
+                    Random rand = new Random();
+                    int randSubdiv;
+                    int randBeat;
+                    randSubdiv = rand.nextInt(2) + 3; // 3 or 4
+                    if (randSubdiv == 3) {
+                        randBeat = rand.nextInt(6) + 2; //2 through 7
+                    } else {
+                        randBeat = rand.nextInt(16); //0 through 15
+                    }
+                    Drawable backgroundClone = getMutableDrawByBeatAndSub(randSubdiv, randBeat);
+                    if (i ==beatIndex) {
+                        // always keep selection active lol
+                        backgroundClone.setColorFilter(new PorterDuffColorFilter(0xFFD3D3D3, PorterDuff.Mode.DARKEN));
+                    }
+                    beatViewArray[i].setBackground(backgroundClone);
+                }
             }
         });
     }
