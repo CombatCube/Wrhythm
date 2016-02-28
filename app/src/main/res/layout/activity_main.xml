@@ -21,21 +21,16 @@
             android:gravity="center_horizontal" >
 
             <ToggleButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
                 android:id="@+id/playToggleButton"
-                android:background="@drawable/ic_toggle_bg"/>
+                android:background="@drawable/ic_play_toggle_bg"
+                style="@style/playToggleButton"/>
 
             <ToggleButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="New ToggleButton"
                 android:id="@+id/repeatToggleButton" />
-
-            <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageButton" />
 
         </LinearLayout>
 
