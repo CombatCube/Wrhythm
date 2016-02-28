@@ -160,14 +160,12 @@ public class Player {
 
     public void stop() {
         isPlaying.compareAndSet(true, false);
-        //stop the player
     }
 
     public AtomicBoolean isPlaying() {
         return isPlaying;
     }
 
-    //Wrong i do not understand concept of ticks
     public void random(){
         for (int numBeats=0; numBeats< this.numBeats;numBeats++){
             int subdivision = ALLOWABLE_NOTES[rand.nextInt(ALLOWABLE_NOTES.length)];
@@ -176,23 +174,12 @@ public class Player {
         }
     }
 
-
     public void initSounder(File f, String nativeLibraryDir) {
         sounder = new Sounder(nativeLibraryDir);
         sounder.csoundObj.startCsound(f);
         sounder.csoundObj.pause();
         sounder.csoundObj.play();
     }
-
-    //TESTS
-    /*
-    public static void main(String args[]){
-        Player player = getPlayer();
-        player.random();
-        Beat[] holder = player.getBeatData();
-        System.out.println("Hello World");
-    }
-    */
 
     public double secondsToTicks(double seconds) {
         // S / S/M = M

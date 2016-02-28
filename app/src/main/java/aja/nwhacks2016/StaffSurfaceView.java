@@ -4,6 +4,7 @@ import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 import android.os.SystemClock;
@@ -48,12 +49,8 @@ public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         canvas.drawRect(movingLeftPosition, 500, movingRightPosition, 50, paint); //Animate this line
         sh.unlockCanvasAndPost(canvas);
     }
-    public void surfaceChanged(SurfaceHolder holder, int format, int width,
-                               int height) {
-    }
-    public void surfaceDestroyed(SurfaceHolder holder) {
-    }
-
+    public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {}
+    public void surfaceDestroyed(SurfaceHolder holder) {}
     public void runLine(){
         System.out.println(movingRightPosition);
         while (movingRightPosition<LASTPOSITION && Player.getPlayer().isPlaying().get()){
@@ -65,9 +62,7 @@ public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callb
             canvas.drawRect(movingLeftPosition, 500, movingRightPosition, 50, paint); //Animate this line
             movingLeftPosition=STARTPOSITION + (int)lineAbs();
             movingRightPosition=movingLeftPosition+7;
-            System.out.println(lineAbs());
-            //movingLeftPosition+=7;
-            //movingRightPosition+=7;
+            Log.d("Info",String.valueOf(lineAbs()));
             sh.unlockCanvasAndPost(canvas);
             SystemClock.sleep(15);
 
@@ -79,7 +74,6 @@ public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         if (Player.getPlayer().isPlaying().get()) {
             movingLeftPosition = MOVINGLEFTSTART;
             movingRightPosition = MOVINGLEFTEND;
-            //Player.getPlayer().isPlaying().compareAndSet(true, false);
         }
     }
 }

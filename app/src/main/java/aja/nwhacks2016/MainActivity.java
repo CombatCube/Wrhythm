@@ -9,6 +9,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -77,10 +78,10 @@ public class MainActivity extends ActionBarActivity {
                 if (istoggled) {
                     //System.out.println("start");
                     player.start();
-                    Thread guihandler = new Thread(new MovingStaffRunnable(staffcaller, new Handler.Callback(){
+                    Thread guihandler = new Thread(new MovingStaffRunnable(staffcaller, new Handler.Callback() {
                         @Override
                         public boolean handleMessage(Message message) {
-                            final ToggleButton tb = (ToggleButton)findViewById(R.id.playToggleButton);
+                            final ToggleButton tb = (ToggleButton) findViewById(R.id.playToggleButton);
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
@@ -215,7 +216,6 @@ public class MainActivity extends ActionBarActivity {
                 } else {
                     view.getBackground().setColorFilter(null);
                 }
-                //System.out.println(self.isTieOn);
             }
         });
     }
