@@ -3,6 +3,8 @@ package aja.nwhacks2016;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
 import aja.rhythm.Player;
@@ -27,6 +30,7 @@ public class MainActivity extends ActionBarActivity {
     private Player player = Player.getPlayer();
     private boolean isTieOn = false;
     private MainActivity self = this;
+    private int darkerFilter = 0xEFD3D3D3;
     int beatIndex = 0;
     View beatViewArray[];
     @Override
@@ -35,6 +39,11 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         setAllKeyboardListeners();
         initPlayer();
+
+        LinearLayout staffView = (LinearLayout)findViewById(R.id.staff);
+        final StaffSurfaceView staffcaller = new StaffSurfaceView(this);
+        staffView.addView(staffcaller, 0);
+
         beatViewArray = new View[] {
                 findViewById(R.id.beat1Button),
                 findViewById(R.id.beat2Button),
@@ -49,7 +58,7 @@ public class MainActivity extends ActionBarActivity {
                 public void onClick(View v) {
                     beatIndex = index;
                     // darken self
-                    v.getBackground().setColorFilter(new PorterDuffColorFilter(0xFFD3D3D3, PorterDuff.Mode.DARKEN));
+                    v.getBackground().setColorFilter(new PorterDuffColorFilter(darkerFilter, PorterDuff.Mode.DARKEN));
                     for (int j = 0; j < 4; ++j) {
                         // lighten all other button views
                         if (j != index) {
@@ -68,6 +77,22 @@ public class MainActivity extends ActionBarActivity {
                 if (istoggled) {
                     //System.out.println("start");
                     player.start();
+                    Thread guihandler = new Thread(new MovingStaffRunnable(staffcaller, new Handler.Callback(){
+                        @Override
+                        public boolean handleMessage(Message message) {
+                            final ToggleButton tb = (ToggleButton)findViewById(R.id.playToggleButton);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    tb.setChecked(false);
+                                }
+                            });
+                            return true;
+                        }
+                    }));
+                    guihandler.start();
+                    //If theres a problem its going to be here,
+
                 } else {
                     //System.out.println("stop");
                     player.stop();
@@ -85,6 +110,7 @@ public class MainActivity extends ActionBarActivity {
         });
 
         final EditText tempoField = (EditText) findViewById(R.id.tempoEditorBox);
+        tempoField.setText((String.valueOf(player.getTempo())));
         tempoField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
@@ -179,14 +205,13 @@ public class MainActivity extends ActionBarActivity {
         // toggle
         ImageButton toggleButton = (ImageButton)findViewById(R.id.button_t);
         toggleButton.setBackground(toggleButton.getBackground().mutate());
-        toggleButton.setOnClickListener(new View.OnClickListener(){
+        toggleButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 self.isTieOn = !self.isTieOn;
-                if (self.isTieOn){
-                    view.getBackground().setColorFilter(new PorterDuffColorFilter(0xFFD3D3D3, PorterDuff.Mode.DARKEN));
-                }
-                else{
+                if (self.isTieOn) {
+                    view.getBackground().setColorFilter(new PorterDuffColorFilter(darkerFilter, PorterDuff.Mode.DARKEN));
+                } else {
                     view.getBackground().setColorFilter(null);
                 }
                 //System.out.println(self.isTieOn);
@@ -199,10 +224,10 @@ public class MainActivity extends ActionBarActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int newbeatpattern = (self.isTieOn ? beatpattern-1 : beatpattern);
+                int newbeatpattern = (self.isTieOn ? beatpattern - 1 : beatpattern);
                 player.addBeat(beatIndex, newbeatpattern, subdivision);
                 Drawable backgroundClone = getMutableDrawByBeatAndSub(subdivision, newbeatpattern);
-                backgroundClone.setColorFilter(new PorterDuffColorFilter(0xFFD3D3D3, PorterDuff.Mode.DARKEN));
+                backgroundClone.setColorFilter(new PorterDuffColorFilter(darkerFilter, PorterDuff.Mode.DARKEN));
                 beatViewArray[beatIndex].setBackground(backgroundClone);
             }
         });
