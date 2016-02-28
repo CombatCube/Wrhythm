@@ -60,12 +60,18 @@ public class MainActivity extends ActionBarActivity {
                     setKeyboardButtonListener(buttonids[row*4+col],subdivision,col-1);
                 }
                 else{
-                    ImageButton button = (ImageButton)findViewById(buttonids[row*4+col]);
-                    button.setOnClickListener(new View.OnClickListener(){
+                    final ImageButton toggleButton = (ImageButton)findViewById(buttonids[row*4+col]);
+                    toggleButton.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View view){
                             //System.out.println("Toggle Tie");
-                            player.toggleTie();
+                            if (player.toggleTie()){
+                                toggleButton.setAlpha(0.5f);
+                            }
+                            else{
+                                toggleButton.setAlpha(1f);
+                            }
+
                         }
                     });
                 }

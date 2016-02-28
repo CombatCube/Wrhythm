@@ -98,8 +98,9 @@ public class Player {
         return tie;
     }
 
-    public void toggleTie() {
+    public boolean toggleTie() {
         this.tie = !this.tie;
+        return this.tie;
     }
 
     //TESTS
