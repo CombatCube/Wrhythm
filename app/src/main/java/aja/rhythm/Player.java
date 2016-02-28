@@ -28,6 +28,7 @@ public class Player {
     private int numBeats;
     private AtomicBoolean isPlaying;
     private Thread perfThread;
+    private volatile double currentTick = 0;
 
     private static Player instance;
 
@@ -93,11 +94,10 @@ public class Player {
         this.numBeats = numBeats;
     }
 
-    public void start(){
+    public void start() {
         isPlaying.compareAndSet(false,true);
         //Start the player
         perfThread = new Thread(new Runnable() {
-            double currentTick = 0;
             long prevTime = elapsedRealtime();
             @Override
             public void run() {
@@ -145,14 +145,17 @@ public class Player {
 
     private ArrayList<Note> getNotesFromBeat(Beat beat) {
         ArrayList<Note> notes = new ArrayList<>();
-        notes.add(new Note(0));
-        notes.add(new Note(120));
-        notes.add(new Note(240));
-        notes.add(new Note(360));
+        int pattern = beat.getBeatPattern();
+        int step = (int)TICKS_PER_BEAT / beat.getSubDivision();
+        for (int i = 0; i < beat.getSubDivision(); i++) {
+            if ((1 & (pattern >> i)) != 0) {
+                notes.add(new Note(step * i));
+            }
+        }
         return notes;
     }
 
-    public void stop(){
+    public void stop() {
         isPlaying.compareAndSet(true, false);
         //stop the player
     }
@@ -193,5 +196,9 @@ public class Player {
         // M * Q/M = Q
         // Q * T/Q = T
         return (seconds / (double) SECONDS_PER_MINUTE) * (double) tempo * (double) TICKS_PER_BEAT;
+    }
+
+    public double getCurrentTick() {
+        return currentTick;
     }
 }
