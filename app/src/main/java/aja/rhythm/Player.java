@@ -26,7 +26,7 @@ public class Player {
     private CopyOnWriteArrayList<Beat> beatlist;
     private boolean isRepeat;
     private int numBeats;
-    private boolean isPlaying;
+    private AtomicBoolean isPlaying;
     private Thread perfThread;
 
     private static Player instance;
@@ -106,7 +106,7 @@ public class Player {
                 Note nextNote = null;
                 Iterator<Note> it = null;
                 boolean notesToPlay = false;
-                while(isPlaying && currentBeat < numBeats) {
+                while(isPlaying.get() && currentBeat < numBeats) {
                     long newTime = elapsedRealtime();
                     currentTick += secondsToTicks((newTime - prevTime) / (double) MILLIS_PER_S);
                     currentTick %= (TICKS_PER_BEAT * numBeats);
@@ -137,7 +137,7 @@ public class Player {
                         }
                     }
                 }
-            isPlaying = false;
+            isPlaying.compareAndSet(true, false);
             }
         });
         perfThread.start();
@@ -153,7 +153,7 @@ public class Player {
     }
 
     public void stop(){
-        isPlaying.compareAndSet(true,false);
+        isPlaying.compareAndSet(true, false);
         //stop the player
     }
 
