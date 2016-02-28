@@ -48,33 +48,48 @@
                 android:layout_height="fill_parent"
                 android:layout_weight="1">
 
-                <ImageButton
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/beat1Button"
-                    android:layout_weight="1"
-                    android:layout_gravity="center" />
+                <FrameLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent">
 
-                <ImageButton
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/beat2Button"
-                    android:layout_weight="1"
-                    android:layout_gravity="center" />
+                        <ImageButton
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/beat1Button"
+                            android:layout_weight="1"
+                            android:layout_gravity="center" />
 
-                <ImageButton
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/beat3Button"
-                    android:layout_weight="1"
-                    android:layout_gravity="center" />
+                        <ImageButton
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/beat2Button"
+                            android:layout_weight="1"
+                            android:layout_gravity="center" />
 
-                <ImageButton
-                    android:layout_width="fill_parent"
-                    android:layout_height="wrap_content"
-                    android:id="@+id/beat4Button"
-                    android:layout_weight="1"
-                    android:layout_gravity="center" />
+                        <ImageButton
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/beat3Button"
+                            android:layout_weight="1"
+                            android:layout_gravity="center" />
+
+                        <ImageButton
+                            android:layout_width="fill_parent"
+                            android:layout_height="wrap_content"
+                            android:id="@+id/beat4Button"
+                            android:layout_weight="1"
+                            android:layout_gravity="center" />
+                    </LinearLayout>
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/staff"></LinearLayout>
+                </FrameLayout>
             </LinearLayout>
 
             <LinearLayout

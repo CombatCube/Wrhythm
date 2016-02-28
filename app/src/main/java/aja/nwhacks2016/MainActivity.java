@@ -13,6 +13,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
 import aja.rhythm.Player;
@@ -28,6 +29,11 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setAllKeyboardListeners();
+
+        LinearLayout staffView = (LinearLayout)findViewById(R.id.staff);
+        final StaffSurfaceView staffcaller = new StaffSurfaceView(this);
+        staffView.addView(staffcaller, 0);
+
         beatViewArray = new View[] {
                 findViewById(R.id.beat1Button),
                 findViewById(R.id.beat2Button),
@@ -61,9 +67,16 @@ public class MainActivity extends ActionBarActivity {
                 if (istoggled) {
                     //System.out.println("start");
                     player.start();
+
+                    //If theres a problem its going to be here,
+                    Thread guihandler = new Thread(new MovingStaffRunnable(staffcaller));
+                    guihandler.start();
+
                 } else {
                     //System.out.println("stop");
                     player.stop();
+                    Thread guihandler = new Thread(new MovingStaffRunnable(staffcaller));
+                    guihandler.start();
                 }
             }
         });
