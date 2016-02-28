@@ -1,9 +1,9 @@
 package aja.rhythm;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.Random;
 import java.lang.Math;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by adrianlim on 2016-02-27.
@@ -13,7 +13,7 @@ public class Player {
     public Sounder sounder;
 
     private int tempo;
-    private ArrayList<Beat> beatlist;
+    private CopyOnWriteArrayList<Beat> beatlist;
     private boolean isRepeat;
     private int ticks;
     private boolean isPlaying;
@@ -24,7 +24,7 @@ public class Player {
 
     private Player(){
         this.tempo = 120;
-        this.beatlist = new ArrayList<Beat>();
+        this.beatlist = new CopyOnWriteArrayList<Beat>();
         this.ticks =4;
         this.isRepeat = false;
         rand = new Random();

@@ -119,8 +119,8 @@
             <ImageButton
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:id="@+id/imageButton0"
-                android:background="@drawable/keyboard_01"
+                android:id="@+id/button_0001"
+                android:background="@drawable/notes_0001"
                 android:layout_column="0"
                 android:layout_row="0"
                 android:layout_gravity="fill"
@@ -130,19 +130,8 @@
             <ImageButton
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:id="@+id/imageButton1"
-                android:background="@drawable/keyboard_02"
-                android:layout_column="0"
-                android:layout_row="1"
-                android:layout_gravity="fill"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1" />
-
-            <ImageButton
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/imageButton2"
-                android:background="@drawable/keyboard_03"
+                android:id="@+id/button_0011"
+                android:background="@drawable/notes_0011"
                 android:layout_column="1"
                 android:layout_row="0"
                 android:layout_gravity="fill"
@@ -152,19 +141,8 @@
             <ImageButton
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:id="@+id/imageButton3"
-                android:background="@drawable/keyboard_04"
-                android:layout_column="1"
-                android:layout_row="1"
-                android:layout_gravity="fill"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1" />
-
-            <ImageButton
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/imageButton4"
-                android:background="@drawable/keyboard_05"
+                android:id="@+id/button_0101"
+                android:background="@drawable/notes_0101"
                 android:layout_column="2"
                 android:layout_row="0"
                 android:layout_gravity="fill"
@@ -174,19 +152,8 @@
             <ImageButton
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:id="@+id/imageButton5"
-                android:background="@drawable/keyboard_06"
-                android:layout_column="2"
-                android:layout_row="1"
-                android:layout_gravity="fill"
-                android:layout_columnWeight="1"
-                android:layout_rowWeight="1" />
-
-            <ImageButton
-                android:layout_width="50dp"
-                android:layout_height="50dp"
-                android:id="@+id/imageButton6"
-                android:background="@drawable/keyboard_07"
+                android:id="@+id/button_0111"
+                android:background="@drawable/notes_0111"
                 android:layout_column="3"
                 android:layout_row="0"
                 android:layout_gravity="fill"
@@ -196,8 +163,41 @@
             <ImageButton
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:id="@+id/imageButton7"
-                android:background="@drawable/keyboard_08"
+                android:id="@+id/button_1001"
+                android:background="@drawable/notes_1001"
+                android:layout_column="0"
+                android:layout_row="1"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1" />
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/button_1011"
+                android:background="@drawable/notes_1011"
+                android:layout_column="1"
+                android:layout_row="1"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1" />
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/button_1101"
+                android:background="@drawable/notes_1101"
+                android:layout_column="2"
+                android:layout_row="1"
+                android:layout_gravity="fill"
+                android:layout_columnWeight="1"
+                android:layout_rowWeight="1" />
+
+            <ImageButton
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/button_1111"
+                android:background="@drawable/notes_1111"
                 android:layout_column="3"
                 android:layout_row="1"
                 android:layout_gravity="fill"
@@ -207,8 +207,8 @@
             <ImageButton
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:id="@+id/imageButton8"
-                android:background="@drawable/keyboard_09"
+                android:id="@+id/button_t"
+                android:background="@drawable/notes_t"
                 android:layout_column="0"
                 android:layout_row="2"
                 android:layout_gravity="fill"
@@ -218,8 +218,8 @@
             <ImageButton
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:id="@+id/imageButton9"
-                android:background="@drawable/keyboard_10"
+                android:id="@+id/button_011"
+                android:background="@drawable/notes_011"
                 android:layout_column="1"
                 android:layout_row="2"
                 android:layout_gravity="fill"
@@ -229,8 +229,8 @@
             <ImageButton
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:id="@+id/imageButton10"
-                android:background="@drawable/keyboard_11"
+                android:id="@+id/button_101"
+                android:background="@drawable/notes_101"
                 android:layout_column="2"
                 android:layout_row="2"
                 android:layout_gravity="fill"
@@ -240,8 +240,8 @@
             <ImageButton
                 android:layout_width="50dp"
                 android:layout_height="50dp"
-                android:id="@+id/imageButton11"
-                android:background="@drawable/keyboard_12"
+                android:id="@+id/button_111"
+                android:background="@drawable/notes_111"
                 android:layout_column="3"
                 android:layout_row="2"
                 android:layout_gravity="fill"
