@@ -5,7 +5,9 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.ToggleButton;
 
 import aja.rhythm.Player;
 
@@ -17,6 +19,30 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setAllKeyboardListeners();
+
+        ToggleButton playbutton = (ToggleButton) findViewById(R.id.playToggleButton);
+        playbutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean istoggled) {
+                if (istoggled){
+                    //System.out.println("start");
+                    player.start();
+                }
+                else{
+                    //System.out.println("stop");
+                    player.stop();
+                }
+            }
+        });
+
+        ToggleButton repeatbutton = (ToggleButton) findViewById(R.id.repeatToggleButton);
+        repeatbutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean istoggled){
+                System.out.println("repeatToggled");
+                player.toggleRepeat();
+            }
+        });
     }
 
 
@@ -60,18 +86,17 @@ public class MainActivity extends ActionBarActivity {
                     setKeyboardButtonListener(buttonids[row*4+col],subdivision,col-1);
                 }
                 else{
-                    final ImageButton toggleButton = (ImageButton)findViewById(buttonids[row*4+col]);
+                    ImageButton toggleButton = (ImageButton)findViewById(buttonids[row*4+col]);
                     toggleButton.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View view){
                             //System.out.println("Toggle Tie");
                             if (player.toggleTie()){
-                                toggleButton.setAlpha(0.5f);
+                                view.setAlpha(0.5f);
                             }
                             else{
-                                toggleButton.setAlpha(1f);
+                                view.setAlpha(1f);
                             }
-
                         }
                     });
                 }
