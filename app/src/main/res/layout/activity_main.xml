@@ -83,11 +83,12 @@
                     android:id="@+id/tempoEditorBox"
                     android:layout_weight="1" />
 
-                <Button
+                <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="ddd"
-                    android:id="@+id/randomButton" />
+                    android:id="@+id/randomButton"
+                    android:background="@drawable/help"/>
+
             </LinearLayout>
         </LinearLayout>
 
