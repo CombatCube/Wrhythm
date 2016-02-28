@@ -31,7 +31,7 @@ iSfNum1      fluidLoad          "soundfont.sf2", giEngine1, 1         ; load a s
 </CsInstruments>
 
 <CsScore>
-i 99 0 360; audio output instrument also keeps performance going
+i 99 0 36000; audio output instrument also keeps performance going
 e
 </CsScore>
 

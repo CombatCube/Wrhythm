@@ -27,7 +27,7 @@ public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     private int movingLeftPosition=MOVINGLEFTSTART;
     private int movingRightPosition=MOVINGLEFTSTART+7;
     private final int WIDTH = LASTPOSITION-STARTPOSITION;
-    private final int TRANSLATEBOTTOM = 320;
+    private final int TRANSLATEBOTTOM = 283;
 
     public double lineAbs(){
         return (LASTPOSITION-STARTPOSITION-7)*(Player.getPlayer().getCurrentTick()/Player.getPlayer().getMaxTicks());

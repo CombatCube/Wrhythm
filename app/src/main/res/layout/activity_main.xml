@@ -18,21 +18,23 @@
             android:layout_width="fill_parent"
             android:layout_height="fill_parent"
             android:layout_weight="7"
-            android:gravity="center_horizontal" >
+            android:gravity="center_horizontal">
 
             <ToggleButton
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:id="@+id/playToggleButton"
                 android:background="@drawable/ic_play_toggle_bg"
-                style="@style/playToggleButton"/>
+                style="@style/playToggleButton"
+                android:layout_marginRight="50dp" />
 
             <ToggleButton
                 android:layout_width="36dp"
                 android:layout_height="36dp"
                 android:id="@+id/repeatToggleButton"
                 android:background="@drawable/ic_repeat_toggle_bg"
-                style="@style/repeatToggleButton"/>
+                style="@style/repeatToggleButton"
+                android:layout_marginLeft="50dp" />
 
         </LinearLayout>
 
@@ -63,32 +65,33 @@
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="match_parent">
+                        android:layout_height="80dp"
+                        android:layout_gravity="center">
 
                         <ImageButton
                             android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="fill_parent"
                             android:id="@+id/beat1Button"
                             android:layout_weight="1"
                             android:layout_gravity="center" />
 
                         <ImageButton
                             android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="fill_parent"
                             android:id="@+id/beat2Button"
                             android:layout_weight="1"
                             android:layout_gravity="center" />
 
                         <ImageButton
                             android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="fill_parent"
                             android:id="@+id/beat3Button"
                             android:layout_weight="1"
                             android:layout_gravity="center" />
 
                         <ImageButton
                             android:layout_width="fill_parent"
-                            android:layout_height="wrap_content"
+                            android:layout_height="fill_parent"
                             android:id="@+id/beat4Button"
                             android:layout_weight="1"
                             android:layout_gravity="center" />
@@ -110,7 +113,8 @@
                     android:textAppearance="?android:attr/textAppearanceSmall"
                     android:text="@string/TempoString"
                     android:id="@+id/tempoText"
-                    android:inputType="none" />
+                    android:inputType="none"
+                    android:layout_gravity="center" />
 
                 <EditText
                     android:layout_width="0dp"
@@ -119,13 +123,16 @@
                     android:ems="10"
                     android:id="@+id/tempoEditorBox"
                     android:layout_weight="1"
-                    android:backgroundTint="@color/menuLine"/>
+                    android:backgroundTint="@color/menuLine"
+                    android:layout_gravity="center" />
 
                 <ImageButton
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:id="@+id/randomButton"
-                    android:background="@drawable/help"/>
+                    android:background="@drawable/help"
+                    android:layout_gravity="center"
+                    android:padding="15dp" />
 
             </LinearLayout>
         </LinearLayout>
