@@ -146,8 +146,9 @@ public class MainActivity extends ActionBarActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                player.addBeat((self.isTieOn : beatpattern+8 ? beatpattern), subdivision);
-                //System.out.println(newbeatpattern);
+                int newbeatpattern = (self.isTieOn ? beatpattern+8 : beatpattern);
+                player.addBeat(newbeatpattern, subdivision);
+                System.out.println(newbeatpattern + " sub" + subdivision);
             }
         });
     }
