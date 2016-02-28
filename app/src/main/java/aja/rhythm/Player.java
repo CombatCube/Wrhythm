@@ -54,7 +54,8 @@ public class Player {
 
     public void addBeat(int index,int beatpattern, int subdivision){
         Beat addedbeat = new Beat(beatpattern, subdivision);
-        beatlist.add(index,addedbeat);
+        beatlist.remove(index);
+        beatlist.add(index, addedbeat);
     }
 
     public void addBeat(int beatpattern, int subdivision){
