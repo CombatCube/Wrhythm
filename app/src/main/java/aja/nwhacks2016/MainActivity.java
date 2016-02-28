@@ -175,7 +175,17 @@ public class MainActivity extends ActionBarActivity {
             public void onClick(View view) {
                 int newbeatpattern = (self.isTieOn ? beatpattern+8 : beatpattern);
                 player.addBeat(beatIndex, newbeatpattern, subdivision);
-                Drawable backgroundClone = view.getBackground().getConstantState().newDrawable().mutate();
+                Drawable backgroundClone = getResources().getDrawable(R.drawable.keyboard_01t);
+                if (self.isTieOn) {
+                    if (backgroundClone == null) {
+                        backgroundClone = view.getBackground().getConstantState().newDrawable().mutate();
+
+                    } else {
+                        backgroundClone = backgroundClone.mutate();
+                    }
+                } else {
+                    backgroundClone = view.getBackground().getConstantState().newDrawable().mutate();
+                }
                 backgroundClone.setColorFilter(new PorterDuffColorFilter(0xFFD3D3D3, PorterDuff.Mode.DARKEN));
                 beatViewArray[beatIndex].setBackground(backgroundClone);
             }
