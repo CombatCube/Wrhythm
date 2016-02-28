@@ -42,17 +42,40 @@
             android:layout_height="fill_parent"
             android:layout_weight="4">
 
-            <HorizontalScrollView
+            <LinearLayout
+                android:orientation="horizontal"
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
-                android:id="@+id/horizontalScrollView"
-                android:layout_weight="1" >
+                android:layout_weight="1">
 
-                <SurfaceView
-                    android:layout_width="wrap_content"
+                <ImageButton
+                    android:layout_width="fill_parent"
                     android:layout_height="wrap_content"
-                    android:id="@+id/surfaceView" />
-            </HorizontalScrollView>
+                    android:id="@+id/beat1Button"
+                    android:layout_weight="1"
+                    android:layout_gravity="center" />
+
+                <ImageButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/beat2Button"
+                    android:layout_weight="1"
+                    android:layout_gravity="center" />
+
+                <ImageButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/beat3Button"
+                    android:layout_weight="1"
+                    android:layout_gravity="center" />
+
+                <ImageButton
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:id="@+id/beat4Button"
+                    android:layout_weight="1"
+                    android:layout_gravity="center" />
+            </LinearLayout>
 
             <LinearLayout
                 android:orientation="horizontal"

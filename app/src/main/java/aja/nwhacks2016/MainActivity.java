@@ -2,6 +2,7 @@ package aja.nwhacks2016;
 
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -25,13 +26,39 @@ public class MainActivity extends ActionBarActivity {
     private Player player = Player.getPlayer();
     private boolean isTieOn = false;
     private MainActivity self = this;
-
+    int beatIndex = 0;
+    View beatViewArray[];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setAllKeyboardListeners();
         initPlayer();
+        beatViewArray = new View[] {
+                findViewById(R.id.beat1Button),
+                findViewById(R.id.beat2Button),
+                findViewById(R.id.beat3Button),
+                findViewById(R.id.beat4Button)};
+        for (int i = 0; i < 4; ++i) {
+            final int index = i;
+            beatViewArray[i].setBackground(findViewById(R.id.imageButton0).getBackground().getConstantState().newDrawable().mutate());
+            player.addBeat(0, 4);
+            beatViewArray[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    beatIndex = index;
+                    // darken self
+                    v.getBackground().setColorFilter(new PorterDuffColorFilter(0xFFD3D3D3, PorterDuff.Mode.DARKEN));
+                    for (int j = 0; j < 4; ++j) {
+                        // lighten all other button views
+                        if (j != index) {
+                            beatViewArray[j].getBackground()
+                                    .setColorFilter(null);
+                        }
+                    }
+                }
+            });
+        }
 
         ToggleButton playbutton = (ToggleButton) findViewById(R.id.playToggleButton);
         playbutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -158,8 +185,20 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void onClick(View view) {
                 int newbeatpattern = (self.isTieOn ? beatpattern+8 : beatpattern);
-                player.addBeat(newbeatpattern, subdivision);
-                System.out.println(newbeatpattern + " sub" + subdivision);
+                player.addBeat(beatIndex, newbeatpattern, subdivision);
+                Drawable backgroundClone = getResources().getDrawable(R.drawable.keyboard_01t);
+                if (self.isTieOn) {
+                    if (backgroundClone == null) {
+                        backgroundClone = view.getBackground().getConstantState().newDrawable().mutate();
+
+                    } else {
+                        backgroundClone = backgroundClone.mutate();
+                    }
+                } else {
+                    backgroundClone = view.getBackground().getConstantState().newDrawable().mutate();
+                }
+                backgroundClone.setColorFilter(new PorterDuffColorFilter(0xFFD3D3D3, PorterDuff.Mode.DARKEN));
+                beatViewArray[beatIndex].setBackground(backgroundClone);
             }
         });
     }
