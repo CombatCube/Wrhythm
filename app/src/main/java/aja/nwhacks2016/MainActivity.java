@@ -2,10 +2,13 @@ package aja.nwhacks2016;
 
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ToggleButton;
 
@@ -39,8 +42,29 @@ public class MainActivity extends ActionBarActivity {
         repeatbutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean istoggled){
-                System.out.println("repeatToggled");
+                //System.out.println("repeatToggled");
                 player.toggleRepeat();
+            }
+        });
+
+        final EditText tempoField = (EditText) findViewById(R.id.tempoEditorBox);
+        tempoField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                System.out.println(tempoField.getText());
+                if (!(tempoField.getText().toString().matches(""))){
+                    player.setTempo(Integer.parseInt(tempoField.getText().toString()));
+                }
             }
         });
 
@@ -48,7 +72,7 @@ public class MainActivity extends ActionBarActivity {
         randomButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println("Random Clicked");
+                //System.out.println("Random Clicked");
                 player.random();
             }
         });
