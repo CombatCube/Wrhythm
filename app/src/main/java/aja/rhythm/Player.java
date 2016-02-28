@@ -119,7 +119,7 @@ public class Player {
                         if (nextNote != null) {
                             double nextNoteTick = nextNote.getTick() + currentBeat * TICKS_PER_BEAT;
                             if (currentTick - nextNoteTick > 0 && currentTick - nextNoteTick < TICKS_PER_BEAT) { // && currentBeat != numBeats - 1
-                                sounder.playNote(11, 0.4, 60, 100);
+                                sounder.playNote(11, -1, 60, 100);
                                 Log.d("NWHACKS-Debug", "currentBeat = " + currentBeat + "; currentTick = " + currentTick);
                                 nextNote = null;
                             }
