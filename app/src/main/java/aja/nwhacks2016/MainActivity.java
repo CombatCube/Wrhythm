@@ -109,6 +109,7 @@ public class MainActivity extends ActionBarActivity {
         });
 
         final EditText tempoField = (EditText) findViewById(R.id.tempoEditorBox);
+        tempoField.setText((String.valueOf(player.getTempo())));
         tempoField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
