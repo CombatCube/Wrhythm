@@ -26,6 +26,10 @@ public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     private int movingLeftPosition=MOVINGLEFTSTART;
     private int movingRightPosition=MOVINGLEFTSTART+7;
 
+    public double lineAbs(){
+        return (LASTPOSITION-STARTPOSITION-7)*(Player.getPlayer().getCurrentTick()/Player.getPlayer().getMaxTicks());
+    }
+
     public StaffSurfaceView(Context context) {
         super(context);
         sh = getHolder();
@@ -55,8 +59,9 @@ public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     }
 
     public void runLine(){
-        System.out.println("Before");
-        System.out.println(Player.getPlayer().isPlaying().get());
+        //System.out.println("Before");
+        //System.out.println(Player.getPlayer().isPlaying().get());
+        System.out.println(movingRightPosition);
         while (movingRightPosition<LASTPOSITION && Player.getPlayer().isPlaying().get()){
             Canvas canvas = sh.lockCanvas();
             canvas.drawColor(Color.WHITE);
@@ -64,14 +69,17 @@ public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callb
             canvas.drawRect(35,320,45,190,paint);
             canvas.drawRect(10, 260, LASTPOSITION, 270, paint);
             canvas.drawRect(movingLeftPosition, 500, movingRightPosition, 50, paint); //Animate this line
-            movingLeftPosition+=7;
-            movingRightPosition+=7;
+            movingLeftPosition=STARTPOSITION + (int)lineAbs();
+            movingRightPosition=movingLeftPosition+7;
+            System.out.println(lineAbs());
+            //movingLeftPosition+=7;
+            //movingRightPosition+=7;
             sh.unlockCanvasAndPost(canvas);
             SystemClock.sleep(15);
 
             if (movingRightPosition>LASTPOSITION && Player.getPlayer().getRepeat()){
-                movingLeftPosition = MOVINGLEFTSTART;
-                movingRightPosition = MOVINGLEFTEND;
+                movingLeftPosition = movingLeftPosition%(LASTPOSITION-STARTPOSITION);
+                movingRightPosition = movingRightPosition%(LASTPOSITION-STARTPOSITION);
             }
         }
         if (Player.getPlayer().isPlaying().get()) {

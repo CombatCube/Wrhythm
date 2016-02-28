@@ -95,7 +95,9 @@ public class Player {
     }
 
     public void start() {
-        isPlaying.compareAndSet(false,true);
+        System.out.println("start");
+        isPlaying.compareAndSet(false, true);
+        System.out.println(isPlaying().get());
         //Start the player
         perfThread = new Thread(new Runnable() {
             long prevTime = elapsedRealtime();
@@ -201,5 +203,9 @@ public class Player {
 
     public double getCurrentTick() {
         return currentTick;
+    }
+
+    public long getMaxTicks(){
+        return numBeats*TICKS_PER_BEAT;
     }
 }
