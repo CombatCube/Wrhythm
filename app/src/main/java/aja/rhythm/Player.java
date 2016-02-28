@@ -22,7 +22,7 @@ public class Player {
     final int[] ALLOWABLE_NOTES = {3,4}; // allowable notes at == 1/n
     public Sounder sounder;
 
-    private int tempo;
+    private volatile int tempo;
     private CopyOnWriteArrayList<Beat> beatlist;
     private boolean isRepeat;
     private int numBeats;

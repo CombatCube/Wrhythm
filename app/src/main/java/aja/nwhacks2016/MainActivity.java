@@ -153,6 +153,7 @@ public class MainActivity extends ActionBarActivity {
                         backgroundClone.setColorFilter(new PorterDuffColorFilter(0xFFD3D3D3, PorterDuff.Mode.DARKEN));
                     }
                     beatViewArray[i].setBackground(backgroundClone);
+                    player.addBeat(i, randBeat, randSubdiv);
                 }
             }
         });
