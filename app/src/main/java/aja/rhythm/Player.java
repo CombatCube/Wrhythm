@@ -2,6 +2,7 @@ package aja.rhythm;
 
 import java.util.ArrayList;
 import java.util.Random;
+import java.lang.Math;
 
 /**
  * Created by adrianlim on 2016-02-27.
@@ -86,18 +87,18 @@ public class Player {
     public void random(){
         for (int tick=0; tick<ticks;tick++){
             int subdivision = ALLOWABLE_NOTES[rand.nextInt(ALLOWABLE_NOTES.length)];
-            int beatpattern = rand.nextInt(ALLOWABLE_NOTES[rand.nextInt(ALLOWABLE_NOTES.length)]);
+            int beatpattern = rand.nextInt((int)Math.pow((double)2,(double)ALLOWABLE_NOTES[rand.nextInt(ALLOWABLE_NOTES.length)]));
             addBeat(beatpattern,subdivision);
         }
     }
 
     //TESTS
-    /*
+
     public static void main(String args[]){
         Player player = getPlayer();
         player.random();
         Beat[] holder = player.getBeatData();
         System.out.println("Hello World");
     }
-    */
+
 }
