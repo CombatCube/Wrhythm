@@ -3,8 +3,9 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/CsoundAndroid/CsoundAndroid.iml" filepath="$PROJECT_DIR$/CsoundAndroid/CsoundAndroid.iml" />
-      <module fileurl="file://$PROJECT_DIR$/RhythmMaker.iml" filepath="$PROJECT_DIR$/RhythmMaker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/NWHacks2016.iml" filepath="$PROJECT_DIR$/NWHacks2016.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
     </modules>
   </component>
 </project>
+
