@@ -60,7 +60,14 @@ public class MainActivity extends ActionBarActivity {
                     setKeyboardButtonListener(buttonids[row*4+col],subdivision,col-1);
                 }
                 else{
-                    //Add tie function
+                    ImageButton button = (ImageButton)findViewById(buttonids[row*4+col]);
+                    button.setOnClickListener(new View.OnClickListener(){
+                        @Override
+                        public void onClick(View view){
+                            //System.out.println("Toggle Tie");
+                            player.toggleTie();
+                        }
+                    });
                 }
             }
         }
@@ -71,8 +78,8 @@ public class MainActivity extends ActionBarActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println(beatpattern);
-                player.addBeat(beatpattern,subdivision);
+                //System.out.println(beatpattern);
+                player.addBeat(beatpattern, subdivision);
             }
         });
     }

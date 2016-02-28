@@ -14,6 +14,7 @@ public class Player {
     private ArrayList<Beat> beatlist;
     private boolean isRepeat;
     private int ticks;
+    private boolean tie;
 
     private static Player instance;
 
@@ -24,6 +25,7 @@ public class Player {
         this.beatlist = new ArrayList<Beat>();
         this.ticks =4;
         rand = new Random();
+        tie = false;
     }
 
     public static Player getPlayer(){
@@ -90,6 +92,14 @@ public class Player {
             int beatpattern = rand.nextInt((int)Math.pow((double)2,(double)ALLOWABLE_NOTES[rand.nextInt(ALLOWABLE_NOTES.length)]));
             addBeat(beatpattern,subdivision);
         }
+    }
+
+    public boolean isTie() {
+        return tie;
+    }
+
+    public void toggleTie() {
+        this.tie = !this.tie;
     }
 
     //TESTS
