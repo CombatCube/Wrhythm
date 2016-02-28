@@ -95,21 +95,22 @@ public class Player {
     }
 
     public void start() {
-        System.out.println("start");
         isPlaying.compareAndSet(false, true);
-        System.out.println(isPlaying().get());
         //Start the player
         perfThread = new Thread(new Runnable() {
             long prevTime = elapsedRealtime();
             @Override
             public void run() {
                 currentTick = 0;
-                int currentBeat = 0;
-                ArrayList<Note> notes = null;
+                int currentBeatNum = 0;
+                ArrayList<Note> notes;
                 Note nextNote = null;
                 Iterator<Note> it = null;
                 boolean notesToPlay = false;
-                while(isPlaying.get() && currentBeat < numBeats) {
+                boolean firstNotePassed = false;
+                Beat thisBeat = beatlist.get(currentBeatNum);
+                Beat nextBeat = beatlist.get(currentBeatNum  + 1);
+                while(isPlaying.get() && currentBeatNum < numBeats) {
                     long newTime = elapsedRealtime();
                     currentTick += secondsToTicks((newTime - prevTime) / (double) MILLIS_PER_S);
                     currentTick %= (TICKS_PER_BEAT * numBeats);
@@ -117,30 +118,54 @@ public class Player {
                     // Play next note
                     if (notesToPlay) {
                         if (nextNote != null) {
-                            double nextNoteTick = nextNote.getTick() + currentBeat * TICKS_PER_BEAT;
-                            if (currentTick - nextNoteTick > 0 && currentTick - nextNoteTick < TICKS_PER_BEAT) { // && currentBeat != numBeats - 1
-                                sounder.playNote(11, -1, 60, 100);
-                                Log.d("NWHACKS-Debug", "currentBeat = " + currentBeat + "; currentTick = " + currentTick);
+                            double nextNoteTick = nextNote.getTick() + currentBeatNum * TICKS_PER_BEAT;
+                            if (currentTick - nextNoteTick > 0 && currentTick - nextNoteTick < TICKS_PER_BEAT) {
+                                int stress = 0;
+                                // Play note
+                                if (!firstNotePassed) { // Stress first note of beat
+                                    if ((thisBeat.getBeatPattern() & 7) != 6) { // Unless 2nd pos note present, 3rd pos note not present
+                                        stress = 2;
+                                    }
+                                    firstNotePassed = true;
+                                } else if (nextNote.getTick() == TICKS_PER_BEAT/2) {
+                                    stress = 1;
+                                } else if (!it.hasNext() && (nextBeat.getBeatPattern() & 1) == 0) { // Last note of beat but next note not at beginning
+                                    stress = 2;
+                                }
+                                switch (stress) {
+                                    case 2:
+                                        sounder.playNote(11, -1, 72, 127);
+                                        break;
+                                    case 1:
+                                        sounder.playNote(11, -1, 67, 100);
+                                        break;
+                                    default:
+                                        sounder.playNote(11, -1, 60, 80);
+                                }
                                 nextNote = null;
                             }
                         } else if (it.hasNext()) {
                             nextNote = it.next();
                         } else {
-                            currentBeat++;
+                            currentBeatNum++;
                             if (isRepeat) {
-                                currentBeat %= numBeats;
+                                currentBeatNum %= numBeats;
                             }
                             notesToPlay = false;
                         }
                     } else {
-                        if (currentBeat < numBeats) {
-                            notes = getNotesFromBeat(beatlist.get(currentBeat));
+                        // Start of next beat
+                        if (currentBeatNum < numBeats) {
+                            thisBeat = beatlist.get(currentBeatNum);
+                            nextBeat = beatlist.get((currentBeatNum + 1) % numBeats);
+                            notes = getNotesFromBeat(thisBeat);
                             it = notes.iterator();
                             notesToPlay = true;
+                            firstNotePassed = false;
                         }
                     }
                 }
-            isPlaying.compareAndSet(true, false);
+                isPlaying.compareAndSet(true, false);
             }
         });
         perfThread.start();
