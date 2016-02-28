@@ -9,6 +9,11 @@ import android.widget.ImageButton;
 
 import aja.rhythm.Player;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
+
 public class MainActivity extends ActionBarActivity {
     private Player player = Player.getPlayer();
 
@@ -17,8 +22,14 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setAllKeyboardListeners();
+        initPlayer();
     }
 
+    private void initPlayer() {
+        File csdFile = copyFile("playmidi.csd", true);
+        File soundfontFile = copyFile("soundfont.sf2", true);
+        player.initSounder(csdFile, getBaseContext().getApplicationInfo().nativeLibraryDir);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -66,6 +77,7 @@ public class MainActivity extends ActionBarActivity {
                         public void onClick(View view){
                             //System.out.println("Toggle Tie");
                             if (player.toggleTie()){
+                                player.sounder.playNote(11, 2.0f, 60, 100);
                                 toggleButton.setAlpha(0.5f);
                             }
                             else{
@@ -88,5 +100,30 @@ public class MainActivity extends ActionBarActivity {
                 player.addBeat(beatpattern, subdivision);
             }
         });
+    }
+
+
+    protected File copyFile(String filename, boolean overwrite) {
+        File file = null;
+        file = new File(this.getCacheDir(), filename);
+        if (!file.exists() || overwrite) {
+            try {
+                copyInputStreamToFile(getAssets().open(filename), file);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return file;
+    }
+
+    private void copyInputStreamToFile(InputStream in, File file) throws Exception {
+        OutputStream out = new FileOutputStream(file);
+        byte[] buf = new byte[1024];
+        int len;
+        while((len=in.read(buf))>0){
+            out.write(buf,0,len);
+        }
+        out.close();
+        in.close();
     }
 }

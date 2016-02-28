@@ -1,5 +1,6 @@
 package aja.rhythm;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.Random;
 import java.lang.Math;
@@ -9,6 +10,7 @@ import java.lang.Math;
  */
 public class Player {
     final int[] ALLOWABLE_NOTES = {3,4}; // allowable notes at == 1/n
+    public Sounder sounder;
 
     private int tempo;
     private ArrayList<Beat> beatlist;
@@ -54,7 +56,7 @@ public class Player {
 
     public void addBeat(int index,int beatpattern, int subdivision){
         Beat addedbeat = new Beat(beatpattern, subdivision);
-        beatlist.add(index,addedbeat);
+        beatlist.add(index, addedbeat);
     }
 
     public void addBeat(int beatpattern, int subdivision){
@@ -79,7 +81,6 @@ public class Player {
     }
 
     public void start(){
-        //Start the player
     }
 
     public void stop(){
@@ -101,6 +102,13 @@ public class Player {
     public boolean toggleTie() {
         this.tie = !this.tie;
         return this.tie;
+    }
+
+    public void initSounder(File f, String nativeLibraryDir) {
+        sounder = new Sounder(nativeLibraryDir);
+        sounder.csoundObj.startCsound(f);
+        sounder.csoundObj.pause();
+        sounder.csoundObj.play();
     }
 
     //TESTS
