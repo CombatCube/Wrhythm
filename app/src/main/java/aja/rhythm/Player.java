@@ -93,12 +93,13 @@ public class Player {
     }
 
     //TESTS
-
+    /*
     public static void main(String args[]){
         Player player = getPlayer();
         player.random();
         Beat[] holder = player.getBeatData();
         System.out.println("Hello World");
     }
+    */
 
 }
