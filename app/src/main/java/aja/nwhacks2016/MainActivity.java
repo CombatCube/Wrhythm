@@ -51,8 +51,8 @@ public class MainActivity extends ActionBarActivity {
                 findViewById(R.id.beat4Button)};
         for (int i = 0; i < 4; ++i) {
             final int index = i;
-            beatViewArray[i].setBackground(getResources().getDrawable(R.drawable.notes_0001).mutate());
-            player.addBeat(0, 4);
+            beatViewArray[i].setBackground(getMutableDrawByBeatAndSub(4, 1));
+            player.addBeat(1, 4);
             beatViewArray[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
