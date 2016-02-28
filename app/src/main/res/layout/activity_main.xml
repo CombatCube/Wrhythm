@@ -153,7 +153,8 @@
                 android:layout_row="0"
                 android:layout_gravity="fill"
                 android:layout_columnWeight="1"
-                android:layout_rowWeight="1" />
+                android:layout_rowWeight="1"
+                />
 
             <ImageButton
                 android:layout_width="50dp"
