@@ -16,6 +16,8 @@ import aja.rhythm.Player;
 
 public class MainActivity extends ActionBarActivity {
     private Player player = Player.getPlayer();
+    private boolean isTieOn = false;
+    private MainActivity self = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,11 +29,10 @@ public class MainActivity extends ActionBarActivity {
         playbutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean istoggled) {
-                if (istoggled){
+                if (istoggled) {
                     //System.out.println("start");
                     player.start();
-                }
-                else{
+                } else {
                     //System.out.println("stop");
                     player.stop();
                 }
@@ -62,7 +63,7 @@ public class MainActivity extends ActionBarActivity {
             @Override
             public void afterTextChanged(Editable editable) {
                 System.out.println(tempoField.getText());
-                if (!(tempoField.getText().toString().matches(""))){
+                if (!(tempoField.getText().toString().matches(""))) {
                     player.setTempo(Integer.parseInt(tempoField.getText().toString()));
                 }
             }
@@ -123,13 +124,14 @@ public class MainActivity extends ActionBarActivity {
                     toggleButton.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View view){
-                            //System.out.println("Toggle Tie");
-                            if (player.toggleTie()){
+                            if (self.isTieOn){
                                 view.setAlpha(0.5f);
                             }
                             else{
                                 view.setAlpha(1f);
                             }
+                            self.isTieOn = !self.isTieOn;
+                            //System.out.println(self.isTieOn);
                         }
                     });
                 }
@@ -142,8 +144,12 @@ public class MainActivity extends ActionBarActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //System.out.println(beatpattern);
-                player.addBeat(beatpattern, subdivision);
+                int newbeatpattern = beatpattern;
+                if (self.isTieOn){
+                    newbeatpattern+=8;
+                }
+                player.addBeat(newbeatpattern, subdivision);
+                //System.out.println(newbeatpattern);
             }
         });
     }
