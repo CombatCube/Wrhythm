@@ -1,6 +1,5 @@
 package aja.nwhacks2016;
 
-import android.graphics.LightingColorFilter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -25,10 +24,11 @@ public class MainActivity extends ActionBarActivity {
         playbutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean istoggled) {
-                if (istoggled) {
+                if (istoggled){
                     //System.out.println("start");
                     player.start();
-                } else {
+                }
+                else{
                     //System.out.println("stop");
                     player.stop();
                 }
@@ -36,11 +36,20 @@ public class MainActivity extends ActionBarActivity {
         });
 
         ToggleButton repeatbutton = (ToggleButton) findViewById(R.id.repeatToggleButton);
-        repeatbutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        repeatbutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean istoggled) {
+            public void onCheckedChanged(CompoundButton compoundButton, boolean istoggled){
                 System.out.println("repeatToggled");
                 player.toggleRepeat();
+            }
+        });
+
+        ImageButton randomButton = (ImageButton) findViewById(R.id.randomButton);
+        randomButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                System.out.println("Random Clicked");
+                player.random();
             }
         });
     }
@@ -92,10 +101,10 @@ public class MainActivity extends ActionBarActivity {
                         public void onClick(View view){
                             //System.out.println("Toggle Tie");
                             if (player.toggleTie()){
-                                view.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFFAA0000));
+                                view.setAlpha(0.5f);
                             }
                             else{
-                                view.getBackground().setColorFilter(null);
+                                view.setAlpha(1f);
                             }
                         }
                     });
