@@ -42,7 +42,7 @@ public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     }
     public void surfaceCreated(SurfaceHolder holder) {
         Canvas canvas = sh.lockCanvas();
-        canvas.drawColor(Color.WHITE);
+        canvas.drawColor(Color.parseColor("#CFD8DC"));
         //canvas.drawRect(10, 320, 20, 190, paint);
         //canvas.drawRect(35,320,45,190,paint);
         canvas.drawRect(10, TRANSLATEBOTTOM, LASTPOSITION, TRANSLATEBOTTOM+10, paint);
@@ -55,7 +55,7 @@ public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         System.out.println(movingRightPosition);
         while (movingRightPosition<LASTPOSITION && Player.getPlayer().isPlaying().get()){
             Canvas canvas = sh.lockCanvas();
-            canvas.drawColor(Color.WHITE);
+            canvas.drawColor(Color.parseColor("#CFD8DC"));
             //canvas.drawRect(10, 320, 20, 190, paint);
             //canvas.drawRect(35,320,45,190,paint);
             canvas.drawRect(10, TRANSLATEBOTTOM, LASTPOSITION, TRANSLATEBOTTOM+10, paint);

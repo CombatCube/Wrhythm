@@ -6,4 +6,7 @@
     <string name="action_settings">Settings</string>
     <string name="TempoString">Tempo =</string>
 
+    <color name="topBar">#3F51B5</color>
+    <color name="backGround">#CFD8DC</color>
+
 </resources>

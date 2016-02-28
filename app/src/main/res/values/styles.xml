@@ -3,6 +3,12 @@
     <!-- Base application theme. -->
     <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here. -->
+        <!-- colorPrimary is used for the default action bar background -->
+        <item name="colorPrimary">@color/topBar</item>
+        <!-- colorPrimaryDark is used for the status bar -->
+        <item name="colorPrimaryDark">@color/topBar</item>
+        <!-- background-->
+        <item name="android:windowBackground">@color/backGround</item>
     </style>
 
     <style name="PlayToggleStyle" parent="android:Widget">
