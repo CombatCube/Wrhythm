@@ -4,10 +4,13 @@ import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ToggleButton;
 
@@ -15,6 +18,9 @@ import aja.rhythm.Player;
 
 public class MainActivity extends ActionBarActivity {
     private Player player = Player.getPlayer();
+    private boolean isTieOn = false;
+    private MainActivity self = this;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -36,11 +42,41 @@ public class MainActivity extends ActionBarActivity {
         });
 
         ToggleButton repeatbutton = (ToggleButton) findViewById(R.id.repeatToggleButton);
-        repeatbutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        repeatbutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean istoggled) {
-                System.out.println("repeatToggled");
+            public void onCheckedChanged(CompoundButton compoundButton, boolean istoggled){
+                //System.out.println("repeatToggled");
                 player.toggleRepeat();
+            }
+        });
+
+        final EditText tempoField = (EditText) findViewById(R.id.tempoEditorBox);
+        tempoField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                System.out.println(tempoField.getText());
+                if (!(tempoField.getText().toString().matches(""))) {
+                    player.setTempo(Integer.parseInt(tempoField.getText().toString()));
+                }
+            }
+        });
+
+        ImageButton randomButton = (ImageButton) findViewById(R.id.randomButton);
+        randomButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //System.out.println("Random Clicked");
+                player.random();
             }
         });
     }
@@ -90,12 +126,14 @@ public class MainActivity extends ActionBarActivity {
                     toggleButton.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View view){
-                            if (player.toggleTie()){
+                            self.isTieOn = !self.isTieOn;
+                            if (self.isTieOn){
                                 view.getBackground().setColorFilter(new PorterDuffColorFilter(0xFFD3D3D3, PorterDuff.Mode.DARKEN));
                             }
                             else{
                                 view.getBackground().setColorFilter(null);
                             }
+                            //System.out.println(self.isTieOn);
                         }
                     });
                 }
@@ -108,8 +146,8 @@ public class MainActivity extends ActionBarActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                System.out.println(beatpattern + " sub " + subdivision);
-                player.addBeat(beatpattern, subdivision);
+                player.addBeat((self.isTieOn : beatpattern+8 ? beatpattern), subdivision);
+                //System.out.println(newbeatpattern);
             }
         });
     }
