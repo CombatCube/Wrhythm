@@ -16,10 +16,13 @@ public class Player {
 
     private static Player instance;
 
+    private Random rand;
+
     private Player(){
         this.tempo = 120;
         this.beatlist = new ArrayList<Beat>();
         this.ticks =4;
+        rand = new Random();
     }
 
     public static Player getPlayer(){
@@ -81,7 +84,6 @@ public class Player {
     }
 
     public void random(){
-        Random rand = new Random();
         for (int tick=0; tick<ticks;tick++){
             int subdivision = ALLOWABLE_NOTES[rand.nextInt(ALLOWABLE_NOTES.length)];
             int beatpattern = rand.nextInt(ALLOWABLE_NOTES[rand.nextInt(ALLOWABLE_NOTES.length)]);
