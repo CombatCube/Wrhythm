@@ -30,7 +30,7 @@ public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     private final int TRANSLATEBOTTOM = 320;
 
     public double lineAbs(){
-        return (LASTPOSITION-STARTPOSITION-7)*(Player.getPlayer().getCurrentTick()/Player.getPlayer().getMaxTicks()+70);
+        return (LASTPOSITION-STARTPOSITION-7)*(Player.getPlayer().getCurrentTick()/Player.getPlayer().getMaxTicks());
     }
 
     public StaffSurfaceView(Context context) {
@@ -60,15 +60,15 @@ public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callb
             //canvas.drawRect(35,320,45,190,paint);
             canvas.drawRect(10, TRANSLATEBOTTOM, LASTPOSITION, TRANSLATEBOTTOM+10, paint);
             canvas.drawRect(movingLeftPosition, 500, movingRightPosition, 50, paint); //Animate this line
-            movingLeftPosition=STARTPOSITION + (int)lineAbs();
-            movingRightPosition=movingLeftPosition+7;
-            Log.d("Info",String.valueOf(lineAbs()));
             sh.unlockCanvasAndPost(canvas);
+            movingLeftPosition=STARTPOSITION + (int)lineAbs();
+            movingRightPosition=movingLeftPosition + 7;
+            Log.d("Info", String.valueOf(lineAbs()));
             SystemClock.sleep(15);
 
             if (movingRightPosition>LASTPOSITION && Player.getPlayer().getRepeat()){
                 movingLeftPosition = movingLeftPosition%(WIDTH);
-                movingRightPosition = movingRightPosition%(WIDTH);
+                movingRightPosition = movingLeftPosition+WIDTH;
             }
         }
         if (Player.getPlayer().isPlaying().get()) {
