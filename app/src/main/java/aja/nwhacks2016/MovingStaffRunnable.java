@@ -12,15 +12,10 @@ import aja.rhythm.Player;
  * Created by adrianlim on 2016-02-28.
  */
 public class MovingStaffRunnable implements Runnable {
-    private static MovingStaffRunnable instance = new MovingStaffRunnable();
     private MainActivity view;
     private Handler.Callback cb;
 
     private MovingStaffRunnable() {};
-
-    public static MovingStaffRunnable getMovingStaffRunnable(){
-        return instance;
-    }
 
     private StaffSurfaceView sv;
     public MovingStaffRunnable(StaffSurfaceView surfaceview, Handler.Callback callback){
@@ -31,10 +26,9 @@ public class MovingStaffRunnable implements Runnable {
     public void run(){
         if (Player.getPlayer().isPlaying().get()) {
             sv.runLine();
-            cb.handleMessage(null);
-        }
-        else{
-            Player.getPlayer().stop();
+            if (!Player.getPlayer().getRepeat()) {
+                cb.handleMessage(null);
+            }
         }
     }
 }

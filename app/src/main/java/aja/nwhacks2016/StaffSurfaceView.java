@@ -19,15 +19,17 @@ import aja.rhythm.Player;
 public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callback {
     private SurfaceHolder sh;
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
-    private final int LASTPOSITION = 950;
+    private final int LASTPOSITION = 1000;
     private final int MOVINGLEFTSTART = 50;
     private final int MOVINGLEFTEND = 57;
     private final int STARTPOSITION = 90;
     private int movingLeftPosition=MOVINGLEFTSTART;
     private int movingRightPosition=MOVINGLEFTSTART+7;
+    private final int WIDTH = LASTPOSITION-STARTPOSITION;
+    private final int TRANSLATEBOTTOM = 320;
 
     public double lineAbs(){
-        return (LASTPOSITION-STARTPOSITION-7)*(Player.getPlayer().getCurrentTick()/Player.getPlayer().getMaxTicks());
+        return (LASTPOSITION-STARTPOSITION-7)*(Player.getPlayer().getCurrentTick()/Player.getPlayer().getMaxTicks()+70);
     }
 
     public StaffSurfaceView(Context context) {
@@ -40,9 +42,9 @@ public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     public void surfaceCreated(SurfaceHolder holder) {
         Canvas canvas = sh.lockCanvas();
         canvas.drawColor(Color.WHITE);
-        canvas.drawRect(10, 320, 20, 190, paint);
-        canvas.drawRect(35,320,45,190,paint);
-        canvas.drawRect(10, 260, LASTPOSITION, 270, paint);
+        //canvas.drawRect(10, 320, 20, 190, paint);
+        //canvas.drawRect(35,320,45,190,paint);
+        canvas.drawRect(10, TRANSLATEBOTTOM, LASTPOSITION, TRANSLATEBOTTOM+10, paint);
         canvas.drawRect(movingLeftPosition, 500, movingRightPosition, 50, paint); //Animate this line
         sh.unlockCanvasAndPost(canvas);
     }
@@ -52,22 +54,14 @@ public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     public void surfaceDestroyed(SurfaceHolder holder) {
     }
 
-    private int scale(double input){
-        //NOT FINISHED
-        int width = LASTPOSITION-STARTPOSITION;
-        return (int)input;
-    }
-
     public void runLine(){
-        //System.out.println("Before");
-        //System.out.println(Player.getPlayer().isPlaying().get());
         System.out.println(movingRightPosition);
         while (movingRightPosition<LASTPOSITION && Player.getPlayer().isPlaying().get()){
             Canvas canvas = sh.lockCanvas();
             canvas.drawColor(Color.WHITE);
-            canvas.drawRect(10, 320, 20, 190, paint);
-            canvas.drawRect(35,320,45,190,paint);
-            canvas.drawRect(10, 260, LASTPOSITION, 270, paint);
+            //canvas.drawRect(10, 320, 20, 190, paint);
+            //canvas.drawRect(35,320,45,190,paint);
+            canvas.drawRect(10, TRANSLATEBOTTOM, LASTPOSITION, TRANSLATEBOTTOM+10, paint);
             canvas.drawRect(movingLeftPosition, 500, movingRightPosition, 50, paint); //Animate this line
             movingLeftPosition=STARTPOSITION + (int)lineAbs();
             movingRightPosition=movingLeftPosition+7;
@@ -78,14 +72,14 @@ public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callb
             SystemClock.sleep(15);
 
             if (movingRightPosition>LASTPOSITION && Player.getPlayer().getRepeat()){
-                movingLeftPosition = movingLeftPosition%(LASTPOSITION-STARTPOSITION);
-                movingRightPosition = movingRightPosition%(LASTPOSITION-STARTPOSITION);
+                movingLeftPosition = movingLeftPosition%(WIDTH);
+                movingRightPosition = movingRightPosition%(WIDTH);
             }
         }
         if (Player.getPlayer().isPlaying().get()) {
             movingLeftPosition = MOVINGLEFTSTART;
             movingRightPosition = MOVINGLEFTEND;
-            Player.getPlayer().isPlaying().compareAndSet(true, false);
+            //Player.getPlayer().isPlaying().compareAndSet(true, false);
         }
     }
 }
