@@ -100,64 +100,76 @@
             android:rowCount="3">
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageButton" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/imageButton"
+                android:background="@drawable/keyboard_01"/>
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageButton2" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/imageButton2"
+                android:background="@drawable/keyboard_02"/>
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageButton3" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/imageButton3"
+                android:background="@drawable/keyboard_03"/>
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageButton4" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/imageButton4"
+                android:background="@drawable/keyboard_04"/>
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageButton5" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/imageButton5"
+                android:background="@drawable/keyboard_05"/>
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageButton6" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/imageButton6"
+                android:background="@drawable/keyboard_06" />
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageButton7" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/imageButton7"
+                android:background="@drawable/keyboard_07"/>
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageButton8" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/imageButton8"
+                android:background="@drawable/keyboard_08"/>
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageButton9" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/imageButton9"
+                android:background="@drawable/keyboard_09"/>
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageButton10" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/imageButton10"
+                android:background="@drawable/keyboard_10"/>
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageButton11" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/imageButton11"
+                android:background="@drawable/keyboard_11"/>
 
             <ImageButton
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:id="@+id/imageButton12" />
+                android:layout_width="50dp"
+                android:layout_height="50dp"
+                android:id="@+id/imageButton12"
+                android:background="@drawable/keyboard_12"/>
 
         </GridLayout>
 
