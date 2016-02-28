@@ -55,7 +55,10 @@
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
-                        android:id="@+id/staff"></LinearLayout>
+                        android:id="@+id/staff"
+                        android:paddingTop="18dp"
+                        android:paddingBottom="18dp">
+                    </LinearLayout>
 
                     <LinearLayout
                         android:orientation="horizontal"

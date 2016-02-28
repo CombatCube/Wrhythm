@@ -20,11 +20,11 @@ public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     private SurfaceHolder sh;
     private final Paint paint = new Paint(Paint.ANTI_ALIAS_FLAG);
     private final int LASTPOSITION = 950;
-    private final int MOVINGLEFTSTART = 20;
-    private final int MOVINGLEFTEND = 27;
+    private final int MOVINGLEFTSTART = 50;
+    private final int MOVINGLEFTEND = 57;
     private final int STARTPOSITION = 90;
-    private int movingLeftPosition=STARTPOSITION;
-    private int movingRightPosition=STARTPOSITION+7;
+    private int movingLeftPosition=MOVINGLEFTSTART;
+    private int movingRightPosition=MOVINGLEFTSTART+7;
 
     public StaffSurfaceView(Context context) {
         super(context);
@@ -36,10 +36,10 @@ public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     public void surfaceCreated(SurfaceHolder holder) {
         Canvas canvas = sh.lockCanvas();
         canvas.drawColor(Color.WHITE);
-        canvas.drawRect(20, 500, 27, 50, paint); //Animate this line
-        canvas.drawRect(70,320,80,190,paint);
-        canvas.drawRect(100, 320, 110, 190, paint);
+        canvas.drawRect(10, 320, 20, 190, paint);
+        canvas.drawRect(35,320,45,190,paint);
         canvas.drawRect(10, 260, LASTPOSITION, 270, paint);
+        canvas.drawRect(movingLeftPosition, 500, movingRightPosition, 50, paint); //Animate this line
         sh.unlockCanvasAndPost(canvas);
     }
     public void surfaceChanged(SurfaceHolder holder, int format, int width,
@@ -60,8 +60,8 @@ public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         while (movingRightPosition<LASTPOSITION && Player.getPlayer().isPlaying().get()){
             Canvas canvas = sh.lockCanvas();
             canvas.drawColor(Color.WHITE);
-            canvas.drawRect(70, 320, 80, 190, paint);
-            canvas.drawRect(100,320,110,190,paint);
+            canvas.drawRect(10, 320, 20, 190, paint);
+            canvas.drawRect(35,320,45,190,paint);
             canvas.drawRect(10, 260, LASTPOSITION, 270, paint);
             canvas.drawRect(movingLeftPosition, 500, movingRightPosition, 50, paint); //Animate this line
             movingLeftPosition+=7;
