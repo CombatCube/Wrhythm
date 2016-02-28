@@ -1,5 +1,6 @@
 package aja.nwhacks2016;
 
+import android.graphics.LightingColorFilter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -24,11 +25,10 @@ public class MainActivity extends ActionBarActivity {
         playbutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton compoundButton, boolean istoggled) {
-                if (istoggled){
+                if (istoggled) {
                     //System.out.println("start");
                     player.start();
-                }
-                else{
+                } else {
                     //System.out.println("stop");
                     player.stop();
                 }
@@ -36,9 +36,9 @@ public class MainActivity extends ActionBarActivity {
         });
 
         ToggleButton repeatbutton = (ToggleButton) findViewById(R.id.repeatToggleButton);
-        repeatbutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+        repeatbutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
-            public void onCheckedChanged(CompoundButton compoundButton, boolean istoggled){
+            public void onCheckedChanged(CompoundButton compoundButton, boolean istoggled) {
                 System.out.println("repeatToggled");
                 player.toggleRepeat();
             }
@@ -92,10 +92,10 @@ public class MainActivity extends ActionBarActivity {
                         public void onClick(View view){
                             //System.out.println("Toggle Tie");
                             if (player.toggleTie()){
-                                view.setAlpha(0.5f);
+                                view.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFFAA0000));
                             }
                             else{
-                                view.setAlpha(1f);
+                                view.getBackground().setColorFilter(null);
                             }
                         }
                     });
