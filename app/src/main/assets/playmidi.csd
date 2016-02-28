@@ -9,7 +9,7 @@ nchnls = 2
 
 giEngine1     fluidEngine                                            ; start fluidsynth engine\
 iSfNum1      fluidLoad          "soundfont.sf2", giEngine1, 1         ; load a soundfont
-             fluidProgramSelect giEngine1, 1, iSfNum1, 0, 1         ; direct each midi channel to a particular soundfont
+             fluidProgramSelect giEngine1, 1, iSfNum1, 0, 116         ; direct each midi channel to a particular soundfont
   massign 0,0
   massign 1,11
 
