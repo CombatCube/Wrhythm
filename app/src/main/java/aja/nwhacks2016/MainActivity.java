@@ -13,10 +13,14 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
 import aja.rhythm.Player;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.io.OutputStream;
 
 public class MainActivity extends ActionBarActivity {
     private Player player = Player.getPlayer();
@@ -29,6 +33,7 @@ public class MainActivity extends ActionBarActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         setAllKeyboardListeners();
+        initPlayer();
 
         LinearLayout staffView = (LinearLayout)findViewById(R.id.staff);
         final StaffSurfaceView staffcaller = new StaffSurfaceView(this);
@@ -41,7 +46,7 @@ public class MainActivity extends ActionBarActivity {
                 findViewById(R.id.beat4Button)};
         for (int i = 0; i < 4; ++i) {
             final int index = i;
-            beatViewArray[i].setBackground(findViewById(R.id.imageButton0).getBackground().getConstantState().newDrawable().mutate());
+            beatViewArray[i].setBackground(getResources().getDrawable(R.drawable.notes_0001).mutate());
             player.addBeat(0, 4);
             beatViewArray[i].setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -121,6 +126,11 @@ public class MainActivity extends ActionBarActivity {
         });
     }
 
+    private void initPlayer() {
+        File csdFile = copyFile("playmidi.csd", true);
+        File soundfontFile = copyFile("soundfont.sf2", true);
+        player.initSounder(csdFile, getBaseContext().getApplicationInfo().nativeLibraryDir);
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -145,63 +155,110 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void setAllKeyboardListeners(){
-        int[] buttonids = {R.id.imageButton0,R.id.imageButton1,R.id.imageButton2,
-            R.id.imageButton3,R.id.imageButton4,R.id.imageButton5,
-            R.id.imageButton6,R.id.imageButton7,R.id.imageButton8,
-            R.id.imageButton9,R.id.imageButton10,R.id.imageButton11};
 
-        for (int row=0;row<3;row++){
-            for (int col=0;col<4;col++){
-                int subdivision;
-                if (row<2){
-                    subdivision = 4;
-                    setKeyboardButtonListener(buttonids[row*4+col],subdivision,row*4+col);
-                }
-                else if (col!=0){
-                    subdivision = 3;
-                    setKeyboardButtonListener(buttonids[row*4+col],subdivision,col);
+        // the keyboard
+        int[] subdiv_4_buttonids = {R.id.button_0001,R.id.button_0011,R.id.button_0101,
+                R.id.button_0111,R.id.button_1001,R.id.button_1011,
+                R.id.button_1101,R.id.button_1111};
+        int[] subdiv_3_buttonids = {R.id.button_011,R.id.button_101,R.id.button_111};
+
+        for (int i = 0; i < 8; ++i) {
+            setKeyboardButtonListener(subdiv_4_buttonids[i], 4, i*2 + 1);
+        }
+        for (int i = 0; i < 3; ++i) {
+            setKeyboardButtonListener(subdiv_3_buttonids[i], 3, i*2 + 3);
+        }
+
+
+        // toggle
+        ImageButton toggleButton = (ImageButton)findViewById(R.id.button_t);
+        toggleButton.setBackground(toggleButton.getBackground().mutate());
+        toggleButton.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View view){
+                self.isTieOn = !self.isTieOn;
+                if (self.isTieOn){
+                    view.getBackground().setColorFilter(new PorterDuffColorFilter(0xFFD3D3D3, PorterDuff.Mode.DARKEN));
                 }
                 else{
-                    ImageButton toggleButton = (ImageButton)findViewById(buttonids[row*4+col]);
-                    toggleButton.setOnClickListener(new View.OnClickListener(){
-                        @Override
-                        public void onClick(View view){
-                            self.isTieOn = !self.isTieOn;
-                            if (self.isTieOn){
-                                view.getBackground().setColorFilter(new PorterDuffColorFilter(0xFFD3D3D3, PorterDuff.Mode.DARKEN));
-                            }
-                            else{
-                                view.getBackground().setColorFilter(null);
-                            }
-                            //System.out.println(self.isTieOn);
-                        }
-                    });
+                    view.getBackground().setColorFilter(null);
                 }
+                //System.out.println(self.isTieOn);
             }
-        }
+        });
     }
 
-    private void setKeyboardButtonListener(int buttonId,final int subdivision,final int beatpattern){
-        ImageButton button = (ImageButton)findViewById(buttonId);
+    private void setKeyboardButtonListener(int buttonId, final int subdivision, final int beatpattern){
+        View button = findViewById(buttonId);
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int newbeatpattern = (self.isTieOn ? beatpattern+8 : beatpattern);
+                int newbeatpattern = (self.isTieOn ? beatpattern-1 : beatpattern);
                 player.addBeat(beatIndex, newbeatpattern, subdivision);
-                Drawable backgroundClone = getResources().getDrawable(R.drawable.keyboard_01t);
-                if (self.isTieOn) {
-                    if (backgroundClone == null) {
-                        backgroundClone = view.getBackground().getConstantState().newDrawable().mutate();
-
-                    } else {
-                        backgroundClone = backgroundClone.mutate();
-                    }
-                } else {
-                    backgroundClone = view.getBackground().getConstantState().newDrawable().mutate();
-                }
+                Drawable backgroundClone = getMutableDrawByBeatAndSub(subdivision, newbeatpattern);
                 backgroundClone.setColorFilter(new PorterDuffColorFilter(0xFFD3D3D3, PorterDuff.Mode.DARKEN));
                 beatViewArray[beatIndex].setBackground(backgroundClone);
             }
         });
+    }
+
+
+    protected File copyFile(String filename, boolean overwrite) {
+        File file = null;
+        file = new File(this.getCacheDir(), filename);
+        if (!file.exists() || overwrite) {
+            try {
+                copyInputStreamToFile(getAssets().open(filename), file);
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        }
+        return file;
+    }
+
+    private void copyInputStreamToFile(InputStream in, File file) throws Exception {
+        OutputStream out = new FileOutputStream(file);
+        byte[] buf = new byte[1024];
+        int len;
+        while((len=in.read(buf))>0){
+            out.write(buf,0,len);
+        }
+        out.close();
+        in.close();
+    }
+
+    private Drawable getMutableDrawByBeatAndSub(int subdiv, int beat) {
+        if (subdiv == 4) {
+            switch (beat) {
+                case 0: return getResources().getDrawable(R.drawable.notes_0000).mutate();
+                case 1: return getResources().getDrawable(R.drawable.notes_0001).mutate();
+                case 2: return getResources().getDrawable(R.drawable.notes_0010).mutate();
+                case 3: return getResources().getDrawable(R.drawable.notes_0011).mutate();
+                case 4: return getResources().getDrawable(R.drawable.notes_0100).mutate();
+                case 5: return getResources().getDrawable(R.drawable.notes_0101).mutate();
+                case 6: return getResources().getDrawable(R.drawable.notes_0110).mutate();
+                case 7: return getResources().getDrawable(R.drawable.notes_0111).mutate();
+                case 8: return getResources().getDrawable(R.drawable.notes_1000).mutate();
+                case 9: return getResources().getDrawable(R.drawable.notes_1001).mutate();
+                case 10: return getResources().getDrawable(R.drawable.notes_1010).mutate();
+                case 11: return getResources().getDrawable(R.drawable.notes_1011).mutate();
+                case 12: return getResources().getDrawable(R.drawable.notes_1100).mutate();
+                case 13: return getResources().getDrawable(R.drawable.notes_1101).mutate();
+                case 14: return getResources().getDrawable(R.drawable.notes_1110).mutate();
+                case 15: return getResources().getDrawable(R.drawable.notes_1111).mutate();
+                default: return null;
+            }
+        } else {
+            // subdiv == 3
+            switch (beat) {
+                case 2: return getResources().getDrawable(R.drawable.notes_010).mutate();
+                case 3: return getResources().getDrawable(R.drawable.notes_011).mutate();
+                case 4: return getResources().getDrawable(R.drawable.notes_100).mutate();
+                case 5: return getResources().getDrawable(R.drawable.notes_101).mutate();
+                case 6: return getResources().getDrawable(R.drawable.notes_110).mutate();
+                case 7: return getResources().getDrawable(R.drawable.notes_111).mutate();
+                default: return null;
+            }
+        }
     }
 }

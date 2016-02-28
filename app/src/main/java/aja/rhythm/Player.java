@@ -1,17 +1,19 @@
 package aja.rhythm;
 
-import java.util.ArrayList;
+import java.io.File;
 import java.util.Random;
 import java.lang.Math;
+import java.util.concurrent.CopyOnWriteArrayList;
 
 /**
  * Created by adrianlim on 2016-02-27.
  */
 public class Player {
     final int[] ALLOWABLE_NOTES = {3,4}; // allowable notes at == 1/n
+    public Sounder sounder;
 
     private int tempo;
-    private ArrayList<Beat> beatlist;
+    private CopyOnWriteArrayList<Beat> beatlist;
     private boolean isRepeat;
     private int ticks;
     private boolean isPlaying;
@@ -22,7 +24,7 @@ public class Player {
 
     private Player(){
         this.tempo = 120;
-        this.beatlist = new ArrayList<Beat>();
+        this.beatlist = new CopyOnWriteArrayList<Beat>();
         this.ticks =4;
         this.isRepeat = false;
         rand = new Random();
@@ -96,6 +98,14 @@ public class Player {
             int beatpattern = rand.nextInt((int)Math.pow((double)2,(double)ALLOWABLE_NOTES[rand.nextInt(ALLOWABLE_NOTES.length)]));
             addBeat(beatpattern,subdivision);
         }
+    }
+
+
+    public void initSounder(File f, String nativeLibraryDir) {
+        sounder = new Sounder(nativeLibraryDir);
+        sounder.csoundObj.startCsound(f);
+        sounder.csoundObj.pause();
+        sounder.csoundObj.play();
     }
 
     //TESTS
