@@ -91,6 +91,10 @@ public class Player {
         //stop the player
     }
 
+    public boolean isPlaying() {
+        return isPlaying;
+    }
+
     //Wrong i do not understand concept of ticks
     public void random(){
         for (int tick=0; tick<ticks;tick++){

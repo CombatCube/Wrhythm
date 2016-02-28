@@ -3,6 +3,8 @@ package aja.nwhacks2016;
 import android.graphics.PorterDuff;
 import android.graphics.PorterDuffColorFilter;
 import android.graphics.drawable.Drawable;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.text.Editable;
@@ -13,6 +15,7 @@ import android.view.View;
 import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.ToggleButton;
 
 import aja.rhythm.Player;
@@ -26,6 +29,7 @@ public class MainActivity extends ActionBarActivity {
     private Player player = Player.getPlayer();
     private boolean isTieOn = false;
     private MainActivity self = this;
+    private int darkerFilter = 0xEFD3D3D3;
     int beatIndex = 0;
     View beatViewArray[];
     @Override
@@ -53,7 +57,7 @@ public class MainActivity extends ActionBarActivity {
                 public void onClick(View v) {
                     beatIndex = index;
                     // darken self
-                    v.getBackground().setColorFilter(new PorterDuffColorFilter(0xFFD3D3D3, PorterDuff.Mode.DARKEN));
+                    v.getBackground().setColorFilter(new PorterDuffColorFilter(darkerFilter, PorterDuff.Mode.DARKEN));
                     for (int j = 0; j < 4; ++j) {
                         // lighten all other button views
                         if (j != index) {
@@ -72,16 +76,25 @@ public class MainActivity extends ActionBarActivity {
                 if (istoggled) {
                     //System.out.println("start");
                     player.start();
-
-                    //If theres a problem its going to be here,
-                    Thread guihandler = new Thread(new MovingStaffRunnable(staffcaller));
+                    Thread guihandler = new Thread(new MovingStaffRunnable(staffcaller, new Handler.Callback(){
+                        @Override
+                        public boolean handleMessage(Message message) {
+                            final ToggleButton tb = (ToggleButton)findViewById(R.id.playToggleButton);
+                            runOnUiThread(new Runnable() {
+                                @Override
+                                public void run() {
+                                    tb.toggle();
+                                }
+                            });
+                            return true;
+                        }
+                    }));
                     guihandler.start();
+                    //If theres a problem its going to be here,
 
                 } else {
                     //System.out.println("stop");
                     player.stop();
-                    Thread guihandler = new Thread(new MovingStaffRunnable(staffcaller));
-                    guihandler.start();
                 }
             }
         });
@@ -173,14 +186,13 @@ public class MainActivity extends ActionBarActivity {
         // toggle
         ImageButton toggleButton = (ImageButton)findViewById(R.id.button_t);
         toggleButton.setBackground(toggleButton.getBackground().mutate());
-        toggleButton.setOnClickListener(new View.OnClickListener(){
+        toggleButton.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View view){
+            public void onClick(View view) {
                 self.isTieOn = !self.isTieOn;
-                if (self.isTieOn){
-                    view.getBackground().setColorFilter(new PorterDuffColorFilter(0xFFD3D3D3, PorterDuff.Mode.DARKEN));
-                }
-                else{
+                if (self.isTieOn) {
+                    view.getBackground().setColorFilter(new PorterDuffColorFilter(darkerFilter, PorterDuff.Mode.DARKEN));
+                } else {
                     view.getBackground().setColorFilter(null);
                 }
                 //System.out.println(self.isTieOn);
@@ -193,10 +205,10 @@ public class MainActivity extends ActionBarActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                int newbeatpattern = (self.isTieOn ? beatpattern-1 : beatpattern);
+                int newbeatpattern = (self.isTieOn ? beatpattern - 1 : beatpattern);
                 player.addBeat(beatIndex, newbeatpattern, subdivision);
                 Drawable backgroundClone = getMutableDrawByBeatAndSub(subdivision, newbeatpattern);
-                backgroundClone.setColorFilter(new PorterDuffColorFilter(0xFFD3D3D3, PorterDuff.Mode.DARKEN));
+                backgroundClone.setColorFilter(new PorterDuffColorFilter(darkerFilter, PorterDuff.Mode.DARKEN));
                 beatViewArray[beatIndex].setBackground(backgroundClone);
             }
         });

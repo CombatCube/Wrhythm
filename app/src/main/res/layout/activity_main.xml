@@ -54,6 +54,12 @@
                     <LinearLayout
                         android:orientation="horizontal"
                         android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/staff"></LinearLayout>
+
+                    <LinearLayout
+                        android:orientation="horizontal"
+                        android:layout_width="match_parent"
                         android:layout_height="match_parent">
 
                         <ImageButton
@@ -84,11 +90,7 @@
                             android:layout_weight="1"
                             android:layout_gravity="center" />
                     </LinearLayout>
-                    <LinearLayout
-                        android:orientation="horizontal"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:id="@+id/staff"></LinearLayout>
+
                 </FrameLayout>
             </LinearLayout>
 

@@ -18,9 +18,9 @@ public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     private final int LASTPOSITION = 950;
     private final int MOVINGLEFTSTART = 20;
     private final int MOVINGLEFTEND = 27;
-    private final int STARTPOSITION = 20;
-    private int movingLeftPosition=20;
-    private int movingRightPosition=27;
+    private final int STARTPOSITION = 90;
+    private int movingLeftPosition=STARTPOSITION;
+    private int movingRightPosition=STARTPOSITION+7;
     private boolean isRunning;
 
     public StaffSurfaceView(Context context) {
@@ -76,7 +76,7 @@ public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     }
 
     public void toggleRunning(){
-        System.out.println("Toggled");
+        //System.out.println("Toggled");
         this.isRunning = !isRunning;
     }
 }
