@@ -1,11 +1,18 @@
 package aja.nwhacks2016;
 
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.CompoundButton;
+import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.ToggleButton;
 
 import aja.rhythm.Player;
 
@@ -16,6 +23,8 @@ import java.io.OutputStream;
 
 public class MainActivity extends ActionBarActivity {
     private Player player = Player.getPlayer();
+    private boolean isTieOn = false;
+    private MainActivity self = this;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -23,6 +32,59 @@ public class MainActivity extends ActionBarActivity {
         setContentView(R.layout.activity_main);
         setAllKeyboardListeners();
         initPlayer();
+
+        ToggleButton playbutton = (ToggleButton) findViewById(R.id.playToggleButton);
+        playbutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean istoggled) {
+                if (istoggled) {
+                    //System.out.println("start");
+                    player.start();
+                } else {
+                    //System.out.println("stop");
+                    player.stop();
+                }
+            }
+        });
+
+        ToggleButton repeatbutton = (ToggleButton) findViewById(R.id.repeatToggleButton);
+        repeatbutton.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener(){
+            @Override
+            public void onCheckedChanged(CompoundButton compoundButton, boolean istoggled){
+                //System.out.println("repeatToggled");
+                player.toggleRepeat();
+            }
+        });
+
+        final EditText tempoField = (EditText) findViewById(R.id.tempoEditorBox);
+        tempoField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
+
+            }
+
+            @Override
+            public void afterTextChanged(Editable editable) {
+                System.out.println(tempoField.getText());
+                if (!(tempoField.getText().toString().matches(""))) {
+                    player.setTempo(Integer.parseInt(tempoField.getText().toString()));
+                }
+            }
+        });
+
+        ImageButton randomButton = (ImageButton) findViewById(R.id.randomButton);
+        randomButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                //System.out.println("Random Clicked");
+                player.random();
+            }
+        });
     }
 
     private void initPlayer() {
@@ -54,10 +116,10 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void setAllKeyboardListeners(){
-        int[] buttonids = {R.id.imageButton,R.id.imageButton2,R.id.imageButton3,
-            R.id.imageButton4,R.id.imageButton5,R.id.imageButton6,
-            R.id.imageButton7,R.id.imageButton8,R.id.imageButton9,
-            R.id.imageButton10,R.id.imageButton11,R.id.imageButton12};
+        int[] buttonids = {R.id.imageButton0,R.id.imageButton1,R.id.imageButton2,
+            R.id.imageButton3,R.id.imageButton4,R.id.imageButton5,
+            R.id.imageButton6,R.id.imageButton7,R.id.imageButton8,
+            R.id.imageButton9,R.id.imageButton10,R.id.imageButton11};
 
         for (int row=0;row<3;row++){
             for (int col=0;col<4;col++){
@@ -68,22 +130,21 @@ public class MainActivity extends ActionBarActivity {
                 }
                 else if (col!=0){
                     subdivision = 3;
-                    setKeyboardButtonListener(buttonids[row*4+col],subdivision,col-1);
+                    setKeyboardButtonListener(buttonids[row*4+col],subdivision,col);
                 }
                 else{
-                    final ImageButton toggleButton = (ImageButton)findViewById(buttonids[row*4+col]);
+                    ImageButton toggleButton = (ImageButton)findViewById(buttonids[row*4+col]);
                     toggleButton.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View view){
-                            //System.out.println("Toggle Tie");
-                            if (player.toggleTie()){
-                                player.sounder.playNote(11, 2.0f, 60, 100);
-                                toggleButton.setAlpha(0.5f);
+                            self.isTieOn = !self.isTieOn;
+                            if (self.isTieOn){
+                                view.getBackground().setColorFilter(new PorterDuffColorFilter(0xFFD3D3D3, PorterDuff.Mode.DARKEN));
                             }
                             else{
-                                toggleButton.setAlpha(1f);
+                                view.getBackground().setColorFilter(null);
                             }
-
+                            //System.out.println(self.isTieOn);
                         }
                     });
                 }
@@ -96,8 +157,9 @@ public class MainActivity extends ActionBarActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //System.out.println(beatpattern);
-                player.addBeat(beatpattern, subdivision);
+                int newbeatpattern = (self.isTieOn ? beatpattern+8 : beatpattern);
+                player.addBeat(newbeatpattern, subdivision);
+                System.out.println(newbeatpattern + " sub" + subdivision);
             }
         });
     }

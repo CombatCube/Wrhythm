@@ -16,7 +16,7 @@ public class Player {
     private ArrayList<Beat> beatlist;
     private boolean isRepeat;
     private int ticks;
-    private boolean tie;
+    private boolean isPlaying;
 
     private static Player instance;
 
@@ -26,8 +26,8 @@ public class Player {
         this.tempo = 120;
         this.beatlist = new ArrayList<Beat>();
         this.ticks =4;
+        this.isRepeat = false;
         rand = new Random();
-        tie = false;
     }
 
     public static Player getPlayer(){
@@ -68,8 +68,8 @@ public class Player {
         return this.isRepeat;
     }
 
-    public void setRepeat(boolean repeat){
-        this.isRepeat = repeat;
+    public void toggleRepeat(){
+        this.isRepeat = !this.isRepeat;
     }
 
     public int getTicks(){
@@ -81,12 +81,16 @@ public class Player {
     }
 
     public void start(){
+        isPlaying = true;
+        //Start the player
     }
 
     public void stop(){
+        isPlaying = false;
         //stop the player
     }
 
+    //Wrong i do not understand concept of ticks
     public void random(){
         for (int tick=0; tick<ticks;tick++){
             int subdivision = ALLOWABLE_NOTES[rand.nextInt(ALLOWABLE_NOTES.length)];
@@ -95,14 +99,6 @@ public class Player {
         }
     }
 
-    public boolean isTie() {
-        return tie;
-    }
-
-    public boolean toggleTie() {
-        this.tie = !this.tie;
-        return this.tie;
-    }
 
     public void initSounder(File f, String nativeLibraryDir) {
         sounder = new Sounder(nativeLibraryDir);
