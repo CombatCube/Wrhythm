@@ -1,6 +1,7 @@
 package aja.nwhacks2016;
 
-import android.graphics.LightingColorFilter;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -14,7 +15,6 @@ import aja.rhythm.Player;
 
 public class MainActivity extends ActionBarActivity {
     private Player player = Player.getPlayer();
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -69,10 +69,10 @@ public class MainActivity extends ActionBarActivity {
     }
 
     private void setAllKeyboardListeners(){
-        int[] buttonids = {R.id.imageButton,R.id.imageButton2,R.id.imageButton3,
-            R.id.imageButton4,R.id.imageButton5,R.id.imageButton6,
-            R.id.imageButton7,R.id.imageButton8,R.id.imageButton9,
-            R.id.imageButton10,R.id.imageButton11,R.id.imageButton12};
+        int[] buttonids = {R.id.imageButton0,R.id.imageButton1,R.id.imageButton2,
+            R.id.imageButton3,R.id.imageButton4,R.id.imageButton5,
+            R.id.imageButton6,R.id.imageButton7,R.id.imageButton8,
+            R.id.imageButton9,R.id.imageButton10,R.id.imageButton11};
 
         for (int row=0;row<3;row++){
             for (int col=0;col<4;col++){
@@ -83,16 +83,15 @@ public class MainActivity extends ActionBarActivity {
                 }
                 else if (col!=0){
                     subdivision = 3;
-                    setKeyboardButtonListener(buttonids[row*4+col],subdivision,col-1);
+                    setKeyboardButtonListener(buttonids[row*4+col],subdivision,col);
                 }
                 else{
                     ImageButton toggleButton = (ImageButton)findViewById(buttonids[row*4+col]);
                     toggleButton.setOnClickListener(new View.OnClickListener(){
                         @Override
                         public void onClick(View view){
-                            //System.out.println("Toggle Tie");
                             if (player.toggleTie()){
-                                view.getBackground().setColorFilter(new LightingColorFilter(0xFFFFFFFF, 0xFFAA0000));
+                                view.getBackground().setColorFilter(new PorterDuffColorFilter(0xFFD3D3D3, PorterDuff.Mode.DARKEN));
                             }
                             else{
                                 view.getBackground().setColorFilter(null);
@@ -109,7 +108,7 @@ public class MainActivity extends ActionBarActivity {
         button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                //System.out.println(beatpattern);
+                System.out.println(beatpattern + " sub " + subdivision);
                 player.addBeat(beatpattern, subdivision);
             }
         });
