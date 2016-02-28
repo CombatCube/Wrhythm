@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Random;
 import java.lang.Math;
 import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by adrianlim on 2016-02-27.
@@ -16,7 +17,7 @@ public class Player {
     private CopyOnWriteArrayList<Beat> beatlist;
     private boolean isRepeat;
     private int ticks;
-    private boolean isPlaying;
+    private AtomicBoolean isPlaying;
 
     private static Player instance;
 
@@ -28,6 +29,7 @@ public class Player {
         this.ticks =4;
         this.isRepeat = false;
         rand = new Random();
+        isPlaying = new AtomicBoolean(false);
     }
 
     public static Player getPlayer(){
@@ -82,16 +84,16 @@ public class Player {
     }
 
     public void start(){
-        isPlaying = true;
+        isPlaying.compareAndSet(false,true);
         //Start the player
     }
 
     public void stop(){
-        isPlaying = false;
+        isPlaying.compareAndSet(true,false);
         //stop the player
     }
 
-    public boolean isPlaying() {
+    public AtomicBoolean isPlaying() {
         return isPlaying;
     }
 

@@ -83,7 +83,7 @@ public class MainActivity extends ActionBarActivity {
                             runOnUiThread(new Runnable() {
                                 @Override
                                 public void run() {
-                                    tb.toggle();
+                                    tb.setChecked(false);
                                 }
                             });
                             return true;

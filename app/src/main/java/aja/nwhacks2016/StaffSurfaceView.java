@@ -9,6 +9,10 @@ import android.view.SurfaceView;
 import android.os.SystemClock;
 import android.widget.ToggleButton;
 
+import java.util.concurrent.atomic.AtomicBoolean;
+
+import aja.rhythm.Player;
+
 /**
  * Created by adrianlim on 2016-02-28.
  */
@@ -21,7 +25,6 @@ public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     private final int STARTPOSITION = 90;
     private int movingLeftPosition=STARTPOSITION;
     private int movingRightPosition=STARTPOSITION+7;
-    private boolean isRunning;
 
     public StaffSurfaceView(Context context) {
         super(context);
@@ -52,7 +55,9 @@ public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     }
 
     public void runLine(){
-        while (movingRightPosition<LASTPOSITION && isRunning()){
+        System.out.println("Before");
+        System.out.println(Player.getPlayer().isPlaying().get());
+        while (movingRightPosition<LASTPOSITION && Player.getPlayer().isPlaying().get()){
             Canvas canvas = sh.lockCanvas();
             canvas.drawColor(Color.WHITE);
             canvas.drawRect(70, 320, 80, 190, paint);
@@ -63,20 +68,16 @@ public class StaffSurfaceView extends SurfaceView implements SurfaceHolder.Callb
             movingRightPosition+=7;
             sh.unlockCanvasAndPost(canvas);
             SystemClock.sleep(15);
+
+            if (movingRightPosition>LASTPOSITION && Player.getPlayer().getRepeat()){
+                movingLeftPosition = MOVINGLEFTSTART;
+                movingRightPosition = MOVINGLEFTEND;
+            }
         }
-        if (isRunning()) {
+        if (Player.getPlayer().isPlaying().get()) {
             movingLeftPosition = MOVINGLEFTSTART;
             movingRightPosition = MOVINGLEFTEND;
-            this.isRunning = false;
+            Player.getPlayer().isPlaying().compareAndSet(true, false);
         }
-    }
-
-    public boolean isRunning() {
-        return isRunning;
-    }
-
-    public void toggleRunning(){
-        //System.out.println("Toggled");
-        this.isRunning = !isRunning;
     }
 }

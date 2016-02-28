@@ -6,6 +6,8 @@ import android.view.SurfaceView;
 import android.view.View;
 import android.widget.ToggleButton;
 
+import aja.rhythm.Player;
+
 /**
  * Created by adrianlim on 2016-02-28.
  */
@@ -27,13 +29,12 @@ public class MovingStaffRunnable implements Runnable {
     }
 
     public void run(){
-        if (!sv.isRunning()) {
-            sv.toggleRunning();
+        if (Player.getPlayer().isPlaying().get()) {
             sv.runLine();
             cb.handleMessage(null);
         }
         else{
-            sv.toggleRunning();
+            Player.getPlayer().stop();
         }
     }
 }
